@@ -11,6 +11,7 @@ class Receta(models.Model):
     estado = models.BooleanField(default=True, verbose_name="Estado")
     estandar = models.CharField(max_length=50, verbose_name="Estandar")
     preparacion = models.TextField(verbose_name="Preparación", null=True)
+    observacion = models.TextField(verbose_name="Observaciones", null=True)
     ingredientes = models.ManyToManyField(Ingrediente, through='RecetaIngrediente', verbose_name="Ingredientes", blank=True)
     # Nuevos campos
 

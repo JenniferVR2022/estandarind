@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from usuarios.forms import UsuarioForm
 from usuarios.models import Usuario
-
 from django.contrib import messages
-
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -64,22 +62,15 @@ def usuarios_crear(request):
     return render(request,'partials/crear.html',context)
 
 
-@login_required
-def usuarios_editar(request, pk):
-    titulo="Usuarios - Editar"
-    usuario= Usuario.objects.get(id=pk)
-    if request.method == "POST":
-        form= UsuarioForm(request.POST, instance=usuario)
-        if form.is_valid():
-            form.save()
-            return redirect('usuarios')
-        else:
-            print("Error al guardar")
-    else:
-        form= UsuarioForm(instance=usuario)
-    context={
-        'titulo':titulo,
-        'form':form
-    }
-    return render(request,'partials/crear.html',context)
 
+@login_required
+def usuarios_editar(request, id):
+    usuario = Usuario.objects.get(id=id)
+    if request.method == "POST":
+        formulario = UsuarioForm(request.POST, request.FILES, instance=usuario)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('usuarios')
+    else:
+        formulario = UsuarioForm(instance=usuario)
+    return render(request, 'usuarios/editarUsuario.html', {'formulario': formulario})

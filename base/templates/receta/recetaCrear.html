@@ -1,30 +1,58 @@
 {% extends 'partials/body.html' %}
 {% load static %}
+
 {% block contenido %}
 
 <title>INDUALI-ESTANDAR-Crear Receta</title>
 
-  </br> 
-  </br> 
-  </br> 
-  </br> 
-  </br> 
-  <div class="row my-12">
-    <div class="col-md-12">
-      <div class="border bg-white p-2">
-        <h4>Agregar Recetas</h4>
-        <hr>
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit">Crear</button>
-        </form>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Agregar Recetas</h4>
+        </div>
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="{{ form.nomComponente.id_for_label }}">Nombre Componente:</label>
+              {{ form.nomComponente }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.codReceta.id_for_label }}">Código de Receta:</label>
+              {{ form.codReceta }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.nomReceta.id_for_label }}">Nombre Receta:</label>
+              {{ form.nomReceta }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.estado.id_for_label }}">Estado:</label>
+              {{ form.estado }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.estandar.id_for_label }}">Estandar:</label>
+              {{ form.estandar }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.preparacion.id_for_label }}">Preparación:</label>
+              {{ form.preparacion }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.observacion.id_for_label }}">Observaciones:</label>
+              {{ form.observacion }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.ingredientes.id_for_label }}">Ingredientes:</label>
+              {{ form.ingredientes }}
+            </div>
+            <button type="submit" class="btn btn-primary">Crear</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
 {% endblock contenido %}
-
-
-
-
-

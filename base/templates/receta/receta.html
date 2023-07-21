@@ -1,5 +1,4 @@
 {% extends 'partials/body.html' %}
-
 {% load static %}
 
 {% block contenido %}
@@ -28,41 +27,39 @@
                 <th scope="col">Estado</th>
                 <th scope="col">Estandar</th>
                 <th scope="col">Preparación</th>
+                <th scope="col">Observaciones</th>
                 <th scope="col">Controles</th>
-                <th scope="col">Controles</th>
+                <th scope="col">Detalle</th> <!-- Agregamos una columna para el botón "Detalle Receta" -->
               </tr>
             </thead>
             <tbody id="tblReceta">
-              {% for items in receta%}
+              {% for receta in recetas %}
               <tr>
-                <th scope="row">{{items.nomComponente}}</th>
-                <td>{{items.codReceta}}</td>
-                <td>{{items.nomReceta}}</td>
-                <td>{{items.estado}}</td>
-                <td>{{items.estandar}}</td>
-                <td>{{items.preparacion}}</td>
+                <td>{{ receta.nomComponente }}</td>
+                <td>{{ receta.codReceta }}</td>
+                <td>{{ receta.nomReceta }}</td>
+                <td>{{ receta.estado }}</td>
+                <td>{{ receta.estandar }}</td>
+                <td>{{ receta.preparacion }}</td>
+                <td>{{ receta.observacion }}</td>
                 <td>
-
-                  
-                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{ receta.id }}">
                     Editar
                   </button>
                   <!-- Inicio Modal Editar -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                  <div class="modal fade" id="exampleModal{{ receta.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ receta.id }}" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Registro</h1>
+                          <h1 class="modal-title fs-5" id="exampleModalLabel{{ receta.id }}">Editar Registro</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                          ¿Desea editar el registro seleccionado?
+                          ¿Desea editar la receta '{{ receta.nomReceta }}'?
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-                          <a type="button" class="btn btn-success" href="{% url 'editarR' items.id %}"
-                            role="button">Si</a>
+                          <a type="button" class="btn btn-success" href="{% url 'editarR' pk=receta.id %}" role="button">Si</a>
                         </div>
                       </div>
                     </div>
@@ -70,9 +67,7 @@
                   <!-- Final modal Editar -->
                 </td>
                 <td>
-                  <button type="button" class="btn btn-info">
-                    <a href="{% url 'detalle_receta' receta_id=items.id %}">Detalle receta</a>
-                  </button>
+                  <a href="{% url 'detalle_receta' pk=receta.id %}" class="btn btn-info">Detalle receta</a> <!-- Agregamos el enlace para el botón "Detalle Receta" -->
                 </td>
               </tr>
               {% endfor %}
@@ -83,4 +78,12 @@
     </div>
   </section>
 </section>
+
+<!-- Agrega la inicialización de DataTables -->
+<script>
+$(document).ready(function() {
+    $('#tabla-general').DataTable();
+});
+</script>
+
 {% endblock contenido %}

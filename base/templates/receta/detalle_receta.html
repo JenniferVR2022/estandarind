@@ -5,24 +5,25 @@
 
 <title>INDUALI-ESTANDAR-Detalle Receta</title>
 
-  <div class="container">
-    <center>
-      <br>
-      <br>
-      <br>
-      <section id="tablaUsuario">
-        <section class="col-lg-12 table">
-          <div class="container text-center bg-white text-dark row g-6 border rounded">
-            <div class="row align-items-start">
-              <div class="col-12 table-responsive">
-                <table class="table table-bordered">
-                  <thead class="thead-dark">
-                    <tr>
-                      <th colspan="2">
-                        <h1>DETALLE RECETA</h1>
-                      </th>
-                    </tr>
-                  </thead>
+<div class="container">
+  <center>
+    <br>
+    <br>
+    <br>
+    <section id="tablaUsuario">
+      <section class="col-lg-12 table">
+        <div class="container text-center bg-white text-dark row g-6 border rounded">
+          <div class="row align-items-start">
+            <div class="col-12 table-responsive">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th colspan="2">
+                      <h1>DETALLE RECETA</h1>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
                   <tr>
                     <td>Nombre Componente:</td>
                     <td>{{ componente.nomComponente }}</td>
@@ -47,33 +48,49 @@
                     <td>Preparación:</td>
                     <td>{{ receta.preparacion }}</td>
                   </tr>
-                </table>
-      
-            <div class="row align-items-start">
-              <div class="col-12 table-responsive">
-                <table class="table table-bordered">
-                  <thead class="thead-dark">
-                    <tr>
-                      <th colspan="5">
-                        <center>
-                          <h6>INGREDIENTES</h6>
-                        </center>
-                      </th>
-                    </tr>
-                  </thead>
-                 
-                  {% for ingrediente in receta.ingredientes.all %}
-                    <tr>
-                      <td>Ingrediente:</td>
-                      <td>{{ ingrediente.nomIngrediente }}</td>
-                    </tr>
-                  {% endfor %}
-                </table>
-              </div>
+                  <tr>
+                    <td>Observaciones:</td>
+                    <td>{{ receta.obsercacion }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-        </section>
+
+          <div class="row align-items-start">
+            <div class="col-12 table-responsive">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th colspan="4">
+                      <center>
+                        <h6>INGREDIENTES</h6>
+                      </center>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th>Unidad de medida</th>
+                    <th>Costo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for ingrediente in receta.ingredientes.all %}
+                    <tr>
+                      <td>{{ ingrediente.nomIngrediente }}</td>
+                      <td>{{ ingrediente.codIngrediente }}</td>
+                      <td>{{ ingrediente.unidadMedida }}</td>
+                      <td>{{ ingrediente.costoIngrediente }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </section>
-    </center>
-  </div>
+    </section>
+  </center>
+</div>
 {% endblock contenido %}

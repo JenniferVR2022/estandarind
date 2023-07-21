@@ -4,12 +4,13 @@ from ingrediente.models import Ingrediente
 from .models import Receta, Ingrediente
 from .forms import recetaForm
 from django.contrib.auth.decorators import login_required
-
+from .models import Receta
 
 @login_required
-def receta(request):
-    receta = Receta.objects.all()
-    return render(request,'receta/receta.html',{'receta': receta})
+def listar_recetas(request):
+    recetas = Receta.objects.all()
+    return render(request, 'receta/receta.html', {'recetas': recetas})
+
 
 @login_required
 def receta_crear(request):
@@ -40,13 +41,12 @@ def eliminar(request,id):
 
 @login_required
 def editarR(request, pk):
-    receta = get_object_or_404(Receta, id=pk)
+    receta = get_object_or_404(Receta, pk=pk)
     if request.method == 'POST':
         form = recetaForm(request.POST, instance=receta)
         if form.is_valid():
             form.save()
-            return redirect('detalle_receta', receta_id=pk)  # Cambio aquí
-               
+            return redirect('detalle_receta', pk=pk)
     else:
         form = recetaForm(instance=receta)
     return render(request, 'receta/editarReceta.html', {'form': form, 'receta': receta})

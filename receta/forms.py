@@ -1,25 +1,18 @@
-from django.forms import ModelForm, widgets
+from django import forms
+from django.forms import ModelChoiceField, ModelForm
 from django_select2 import forms as s2forms
-from receta.models import Receta
-from django import forms
-from .models import Receta, Ingrediente
-
-
-from django import forms
-
-class MyForm(forms.Form):
-    phone = forms.BooleanField(required=True)
+from receta.models import Receta, Ingrediente
 
 class IngredienteWidget(s2forms.ModelSelect2Widget):
-    search_fields ={
+    search_fields = {
         "nombre__icontains",
         "id__icontains"
     }
-        
-class recetaForm(forms.ModelForm):
+
+class RecetaForm(forms.ModelForm):
     class Meta:
         model = Receta
-        fields = ['nomComponente', 'codReceta', 'nomReceta', 'estado', 'estandar', 'preparacion','ingredientes']
+        fields = ['nomComponente', 'codReceta', 'nomReceta', 'estado', 'estandar', 'preparacion', 'observacion', 'ingredientes']
         widgets = {
-            'ingredientes': forms.CheckboxSelectMultiple(),
+            'ingredientes': IngredienteWidget(),
         }
