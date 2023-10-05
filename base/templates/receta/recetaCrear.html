@@ -5,13 +5,58 @@
 
 <title>INDUALI-ESTANDAR-Crear Receta</title>
 
+<!-- Agrega el botón para abrir el modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Seleccionar Ingredientes
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Seleccionar Ingredientes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Agrega la barra de búsqueda para los ingredientes -->
+    
+        <div class="form-group">
+          <label for="buscar-ingredientes">Buscar Ingredientes:</label>
+          <input type="text" id="buscar-ingredientes" class="form-control">
+        </div>
+                
+        <!-- Renderiza la lista de ingredientes -->
+        <!-- Agrega el campo oculto para los ingredientes seleccionados -->
+        <input type="hidden" id="ingredientes_seleccionados" name="ingredientes_seleccionados" value="">
+        <ul id="lista-ingredientes">
+          {% for ingrediente in ingredientes %}
+            <li style="list-style-type: none; margin-bottom: 5px; padding: 5px; background-color: #f2f2f2; border: 1px solid #ddd; border-radius: 5px;">
+              <input type="checkbox" name="ingredientes" value="{{ ingrediente.pk }}" style="margin-right: 10px;"> {{ ingrediente.nomIngrediente }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="seleccionar-ingredientes-btn">Seleccionar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
         <div class="card-header bg-primary text-white">
           <h4 class="mb-0">Agregar Recetas</h4>
-        </div>
+       
+       </div>
         <div class="card-body">
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -43,10 +88,44 @@
               <label for="{{ form.observacion.id_for_label }}">Observaciones:</label>
               {{ form.observacion }}
             </div>
-            <div class="form-group">
-              <label for="{{ form.ingredientes.id_for_label }}">Ingredientes:</label>
-              {{ form.ingredientes }}
+
+            <div class="row align-items-start">
+              <div class="col-12 table-responsive">
+                <table class="table table-bordered id="tabla-seleccionar" >
+                  <thead class="thead-dark">
+                    <tr>
+                      <th colspan="4">
+                        <center>
+                          <h6>INGREDIENTES</h6>
+                        </center>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Código</th>
+                      <th>Unidad de medida</th>
+                      <th>Costo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for ingrediente in receta.ingredientes.all %}
+                      <tr>
+                        <td>{{ ingrediente.nomIngrediente }}</td>
+                        <td>{{ ingrediente.codIngrediente }}</td>
+                        <td>{{ ingrediente.unidadMedida }}</td>
+                        <td>{{ ingrediente.costoIngrediente }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
+        </section>
+      </section>
+    </center>
+  </div>
+        
             <button type="submit" class="btn btn-primary">Crear</button>
           </form>
         </div>
@@ -54,5 +133,56 @@
     </div>
   </div>
 </div>
+
+<!-- Agrega el siguiente bloque de script al final del cuerpo del documento -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Agrega la funcionalidad de búsqueda de ingredientes
+    $('#buscar-ingredientes').on('input', function() {
+      var searchTerm = $(this).val().toLowerCase();
+      $('#lista-ingredientes li').each(function() {
+        var textToSearch = $(this).text().toLowerCase();
+        if (textToSearch.includes(searchTerm)) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    });
+    
+
+
+    $(document).ready(function() {
+      // Agrega la funcionalidad para seleccionar ingredientes
+      $('#seleccionar-ingredientes-btn').on('click', function() {
+          var ingredientesSeleccionados = [];
+          $('input[name="ingredientes"]:checked').each(function() {
+              ingredientesSeleccionados.push($(this).val());
+          });
+  
+          // Añade los ingredientes seleccionados a la tabla
+          for (var i = 0; i < ingredientesSeleccionados.length; i++) {
+              var ingredienteId = ingredientesSeleccionados[i];
+              var ingredienteNombre = $('#lista-ingredientes li input[value="' + ingredienteId + '"]').next().text();
+  
+              // Añade una nueva fila a la tabla con los detalles del ingrediente
+              $('#tabla-seleccionar tbody').append(
+                  '<tr>' +
+                  '<td>' + ingredienteNombre + '</td>' +
+                  '<td>Código Ingrediente</td>' + // Ajusta según tu modelo de Ingrediente
+                  '<td>Unidad de medida</td>' + // Ajusta según tu modelo de Ingrediente
+                  '<td>Costo Ingrediente</td>' + // Ajusta según tu modelo de Ingrediente
+                  '</tr>'
+              );
+          }
+  
+          // Oculta el modal después de seleccionar ingredientes
+          $('#myModal').modal('hide');
+      });
+  });
+  
+
+</script>
 
 {% endblock contenido %}

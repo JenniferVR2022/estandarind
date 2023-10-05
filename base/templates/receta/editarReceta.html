@@ -5,18 +5,21 @@
 
 <title>INDUALI-ESTANDAR-Editar Receta</title>
 
-</br> 
-
 <div class="row my-12">
   <div class="col-md-12">
     <div class="border bg-white p-5">
-  <h2>Editar Receta: {{ receta.nomReceta }}</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar Cambios</button>
-  </form>
+      <h2>Editar Receta: {{ receta.nomReceta }}</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <!-- Campo oculto para ingredientes -->
+        <input type="hidden" id="ingredientes_seleccionados" name="ingredientes_seleccionados" value="{% for ingrediente in receta.ingredientes.all %}{{ ingrediente.id }},{% endfor %}">
+        
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+      </form>
+    </div>
+  </div>
 </div>
-</div>
-</div>
+
 {% endblock contenido %}
