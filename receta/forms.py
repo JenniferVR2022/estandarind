@@ -8,6 +8,8 @@ class IngredienteWidget(s2forms.ModelSelect2Widget):
         "nombre__icontains",
         "id__icontains"
     }
+    
+    
 
 class recetaForm(forms.ModelForm):
     ingredientes = forms.ModelMultipleChoiceField(
